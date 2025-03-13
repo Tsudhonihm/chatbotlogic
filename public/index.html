@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anything Boes Chat</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png" /> <!-- Primary static favicon -->
+  <link rel="icon" type="image/gif" href="/favicon.gif" /> <!-- Fallback for browsers supporting animated GIFs -->
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    /* Masculine Background Gradient */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(270deg, #1e3c72, #2a5298, #1e3c72);
+      background-size: 600% 600%;
+      animation: gradientAnimation 15s ease infinite;
+      height: 100vh;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Splash Screen */
+    #splash-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #1e3c72;
+      z-index: 9999;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #splash-screen h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out 0.5s forwards;
+    }
+
+    #splash-screen img {
+      width: 150px;
+      height: auto;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Main Content */
+    #root {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #splash-screen h1 {
+        font-size: 2rem;
+      }
+
+      #splash-screen img {
+        width: 100px;
+      }
+    }
+
+    /* Accessibility Improvements */
+    img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <h1>Anything Boes Presents Chat with Bot</h1>
+    <img 
+      src="/logo.svg" 
+      alt="Anything Boes Studio Logo" 
+      onerror="this.src='/logo.png'; this.alt='Fallback Logo'" 
+    />
+  </div>
+
+  <!-- Main Content -->
+  <div id="root">
+    <h1>Welcome to Anything Boes Chat</h1>
+    <p>Your friendly AI-powered chat companion!</p>
+  </div>
+
+  <!-- React/Vite App Entry Point -->
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- Script to Handle Splash Screen Transition -->
+  <script>
+    // Automatically hide the splash screen after 3 seconds
+    setTimeout(() => {
+      const splashScreen = document.getElementById('splash-screen');
+      if (splashScreen) {
+        splashScreen.style.opacity = '0'; // Fade out smoothly
+        splashScreen.addEventListener('transitionend', () => {
+          splashScreen.style.display = 'none'; // Hide after fade-out
+        }, { once: true });
+      }
+    }, 3000);
+
+    // Optional: Fallback for missing images
+    window.addEventListener('load', () => {
+      const logo = document.querySelector('#splash-screen img');
+      if (!logo.complete || logo.naturalWidth === 0) {
+        logo.src = '/logo.png'; // Replace with a default logo
+        logo.alt = 'Fallback Logo';
+      }
+    });
+  </script>
+</body>
+</html>
