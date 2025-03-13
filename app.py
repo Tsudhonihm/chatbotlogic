@@ -1,64 +1,38 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from dotenv import load_dotenv
+import os
 
-# Load environment variables
-load_dotenv()
-
+# Initialize Flask app
 app = Flask(__name__)
 
-# Configure CORS with environment variable
-allowed_origins = os.getenv('ALLOWED_ORIGINS', '').split(',')
-CORS(app, origins=allowed_origins)
+# Enable CORS
+CORS(app, origins=["https://anything-boes-chat.vercel.app", "https://anythingboes.firebaseapp.com"])
 
-# Load DialoGPT tokenizer and model
-print("Loading model and tokenizer...")
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small", padding_side="left")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
-print("Model and tokenizer loaded successfully!")
+# Load environment variables
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
+# Load tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
+model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
 
 @app.route('/message', methods=['POST'])
 def message():
     try:
-        # Parse JSON payload from the request
-        data = request.get_json()
-        
-        # Validate input
-        if not data or 'message' not in data:
-            return jsonify({'error': 'Message cannot be empty'}), 400
-        
-        user_message = data['message'].strip()
-        
-        if not user_message:
-            return jsonify({'error': 'Message cannot be empty'}), 400
-        if len(user_message) > 500:
-            return jsonify({'error': 'Message is too long'}), 400
-        
-        # Encode the user's input
-        input_ids = tokenizer.encode(user_message + tokenizer.eos_token, return_tensors="pt")
-        
-        # Generate a response using DialoGPT
-        response_ids = model.generate(
-            input_ids,
-            max_length=int(os.getenv('HF_MAX_LENGTH', 1000)),
-            pad_token_id=tokenizer.eos_token_id,
-            no_repeat_ngram_size=2,
-            top_p=float(os.getenv('HF_TOP_P', 0.95)),
-            top_k=int(os.getenv('HF_TOP_K', 50)),
-            do_sample=True
-        )
-        
-        # Decode the bot's response
-        bot_response = tokenizer.decode(response_ids[:, input_ids.shape[-1]:][0], skip_special_tokens=True)
-        
-        return jsonify({'response': bot_response}), 200
-    
+        # Get user input from request
+        data = request.json
+        user_message = data.get("message", "")
+
+        # Process the message using the model
+        inputs = tokenizer.encode(user_message + tokenizer.eos_token, return_tensors="pt")
+        outputs = model.generate(inputs, max_length=1000, pad_token_id=tokenizer.eos_token_id)
+        bot_response = tokenizer.decode(outputs[:, inputs.shape[-1]:][0], skip_special_tokens=True)
+
+        # Return the response
+        return jsonify({"response": bot_response})
     except Exception as e:
-        app.logger.error(f"Error: {str(e)}")
-        return jsonify({'error': 'An unexpected error occurred'}), 500
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
