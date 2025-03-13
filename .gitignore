@@ -1,0 +1,23 @@
+# Ignore environment variables
+.env
+
+# Ignore build artifacts and dependencies
+node_modules/
+venv/
+__pycache__/
+dist/
+build/
+
+# Ignore IDE/editor-specific files
+.vscode/
+.idea/
+*.log
+*.sqlite3
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.tmp
+*.swp
