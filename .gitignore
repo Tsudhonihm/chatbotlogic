@@ -22,20 +22,4 @@ Thumbs.db
 *.tmp
 *.swp
 
-# Flask Backend Configuration
-FLASK_APP=app.py
-FLASK_ENV=production
-FLASK_DEBUG=1
 
-# HuggingFace Configuration
-HF_MODEL_NAME="microsoft/DialoGPT-small"
-HF_MAX_LENGTH=1000
-HF_TOP_P=0.95
-HF_TOP_K=50
-
-# CORS Configuration
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5000,https://anythingboes.web.app/,https://anything-boes-chat.vercel.app/
-
-# Database Configuration (if needed)
-DATABASE_URL=sqlite:///app.db
-HUGGINGFACE_API_KEY=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
