@@ -2,11 +2,11 @@
   "relatedProjects": ["prj_M6AVvUMNIXxXe6Pd1Rbj8HBkuwff"],
   "version": 2,
   "builds": [
-    { "src": "api/app.py", "use": "@vercel/python" }, // Backend (Flask)
-    { "src": "frontend/package.json", "use": "@vercel/static-build" } // Frontend (React)
+    { "src": "api/app.py", "use": "@vercel/python" },
+    { "src": "frontend/package.json", "use": "@vercel/static-build" }
   ],
   "routes": [
-    { "src": "/api(/.*)?", "dest": "/api$1" }, // Route API requests to the backend
-    { "src": "/(.*)", "dest": "/" } // Serve the frontend for all other routes
+    { "src": "/api(/.*)?", "dest": "/api$1" },
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
