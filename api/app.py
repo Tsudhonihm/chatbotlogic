@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Enable CORS
-CORS(app, origins=["https://chatbotlogic-git-main-peter-boes-projects.vercel.app/"])
+CORS(app, origins=["https://anything-boes-chat.vercel.app"])
 
 # Load environment variables
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
