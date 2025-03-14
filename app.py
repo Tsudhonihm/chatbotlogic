@@ -7,14 +7,14 @@ import os
 app = Flask(__name__)
 
 # Enable CORS
-CORS(app, origins=["https://anything-boes-chat.vercel.app", "https://anythingboes.firebaseapp.com"])
+CORS(app, origins=["https://chatbotlogic-git-main-peter-boes-projects.vercel.app/"])
 
 # Load environment variables
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
 # Load tokenizer and model
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
+tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small")
+model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
 
 @app.route('/message', methods=['POST'])
 def message():
