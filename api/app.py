@@ -7,7 +7,11 @@ import os
 app = Flask(__name__)
 
 # Enable CORS for the frontend domain
-CORS(app, origins=["https://anything-boes-chat-git-main-peter-boes-projects.vercel.app"])
+allowed_origins = ["https://anything-boes-chat-git-main-peter-boes-projects.vercel.app"]
+CORS(app, origins=allowed_origins)
+
+# Log the allowed origins for debugging
+print(f"Allowed origins: {allowed_origins}")
 
 # Load environment variables
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
