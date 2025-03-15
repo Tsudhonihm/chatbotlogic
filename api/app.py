@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
@@ -22,6 +22,12 @@ tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small", padding_si
 model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
 print("Model and tokenizer loaded successfully!")
 
+# Serve the HTML file as the homepage
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# Handle chat messages
 @app.route('/message', methods=['POST'])
 def message():
     try:

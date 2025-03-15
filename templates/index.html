@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anything Boes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .response {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chat with the Bot</h1>
+    <textarea id="userInput" placeholder="Type your message here..."></textarea>
+    <button id="sendMessage">Send Message</button>
+    <div class="response" id="response">
+      <!-- Backend response will appear here -->
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('sendMessage').addEventListener('click', async () => {
+      const userInput = document.getElementById('userInput').value;
+      if (!userInput.trim()) {
+        alert('Please enter a message.');
+        return;
+      }
+
+      // Clear previous response
+      document.getElementById('response').textContent = 'Loading...';
+
+      try {
+        // Replace with your backend URL
+        const backendUrl = '/message'; // Flask serves this endpoint
+
+        const response = await fetch(backendUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userInput }),
+        });
+
+        const data = await response.json();
+        document.getElementById('response').textContent = data.response || 'No response from the bot.';
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('response').textContent = 'An error occurred while communicating with the backend.';
+      }
+    });
+  </script>
+</body>
+</html>
