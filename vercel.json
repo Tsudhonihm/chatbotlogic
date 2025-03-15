@@ -1,12 +1,13 @@
 {
-  "relatedProjects": ["prj_M6AVvUMNIXxXe6Pd1Rbj8HBkuwff"],
   "version": 2,
+  "relatedProjects": ["prj_M6AVvUMNIXxXe6Pd1Rbj8HBkuwff"],
   "builds": [
     { "src": "api/app.py", "use": "@vercel/python" },
     { "src": "frontend/package.json", "use": "@vercel/static-build" }
   ],
   "routes": [
+    { "handle": "filesystem" },
     { "src": "/api(/.*)?", "dest": "/api$1" },
-    { "src": "/(.*)", "dest": "/" }
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
