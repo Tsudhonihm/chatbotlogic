@@ -6,8 +6,8 @@ import os
 # Initialize Flask app
 app = Flask(__name__)
 
-# Enable CORS
-CORS(app, origins=["https://anything-boes-chat.vercel.app"])
+# Enable CORS for the frontend domain
+CORS(app, origins=["https://anything-boes-chat-git-main-peter-boes-projects.vercel.app"])
 
 # Load environment variables
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
